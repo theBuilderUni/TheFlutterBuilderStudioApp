@@ -10,9 +10,9 @@ class AppTheme {
       fontFamily: 'Inter',
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
+        seedColor: AppColors.violet,
+        primary: AppColors.violet,
+        secondary: AppColors.accent,
         surface: AppColors.surface,
       ),
       appBarTheme: const AppBarTheme(
@@ -41,7 +41,7 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primaryDark,
+          foregroundColor: AppColors.violet,
           side: const BorderSide(color: AppColors.border),
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           shape: const StadiumBorder(),
@@ -59,17 +59,45 @@ class AppTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.primarySoft,
+        backgroundColor: AppColors.violetSoft,
         side: const BorderSide(color: AppColors.border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
         labelStyle: const TextStyle(
-          color: AppColors.primaryDark,
+          color: AppColors.violet,
           fontWeight: FontWeight.w600,
+        ),
+      ),
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: AppColors.surface,
+        indicatorColor: AppColors.violetSoft,
+        elevation: 2,
+        shadowColor: Color(0x1A231448),
+        labelTextStyle: WidgetStatePropertyAll(
+          TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.surface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.violet, width: 1.5),
         ),
       ),
       textTheme: const TextTheme(
         headlineMedium: TextStyle(
-          fontFamily: 'Playfair Display',
           fontSize: 28,
           fontWeight: FontWeight.w800,
           color: AppColors.textPrimary,
