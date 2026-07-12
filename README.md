@@ -1,98 +1,136 @@
-# theBuilderApp
+# The Builder App
 
-This repository is an evolving Flutter software-factory training project. It is not a set of disconnected weekly demos. Each week preserves the stable foundation from previous weeks, then evolves the same application toward a more operational theBuilderApp.
+The Builder App is the Flutter mobile companion for [The Builder Uni](https://github.com/theBuilderUni). It gives Builders a focused view of their identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
 
-## Software-Factory Philosophy
+This repository currently implements the mobile experience and navigation with mock data. Authentication, Supabase persistence, live Rewards transactions, and Workspace synchronization are planned for the next integration phase.
 
-The goal is to learn how real software grows:
+## Current experience
 
-- keep a stable working baseline
-- evolve features through focused branches
-- preserve architecture instead of rewriting from scratch
-- document decisions as the system changes
-- use AI assistance with clear context and workflow rules
+The app includes four Builder-facing views:
 
-Week 1 established the stable Builder Profile App baseline. Week 2 adds real Android Google Sign-In and one fixed Builder Uni Classroom integration. Week 3 adds an on-device Builder Points wallet that imports a customer access ZIP, encrypts the customer secret with a passcode, signs transactions on the device, and submits them directly to Horizon/NowNodes.
+- **Home** — Builder profile, level, Rewards balance, and followed Apps.
+- **Rewards** — balance, receive QR/Reward ID, and a mock send form.
+- **Apps** — searchable discovery of Builder Uni Apps and their Squads.
+- **App detail** — App overview with WIP, Committed Work, and Work History.
 
-## Week-by-Week Evolution
+Presentation-level interactions are implemented, including bottom-tab navigation, Apps search, opening and closing App details, following Apps, and switching between Rewards receive/send views. All displayed records and balances are currently mocked.
 
-### Week 1: Stable Baseline
+## Product language
 
-Week 1 is the frozen starter milestone. It includes:
+The app follows the Builder Workspace domain model:
 
-- Flutter + GetX
-- `BaseController` / `BaseView`
-- centralized resources for colors, dimensions, strings, images, and theme
-- feature-based folder structure
-- a local profile screen with reactive GetX state
+- A **Builder** is the signed-in member identity.
+- A **Squad/App** is an independent product team or application.
+- A **Work Item** is meaningful work that should ship, be demonstrated, or become professional evidence.
+- **Rewards** and **Builder Rewards** are used in the UI; wallet and Web3 terminology are intentionally avoided.
 
-Students should use Week 1 to understand and customize a working app safely.
+Work Item states shown in the mobile experience are:
 
-### Week 2: Member App Identity And Classroom
+- `Committed`
+- `WIP`
+- `Done`, presented as **Work History**
 
-Week 2 evolves the same codebase toward an operational theBuilderApp. It includes Android Google Sign-In through the official `google_sign_in` package and fixed Builder Uni Classroom course data through Google Classroom API calls.
+Each Work Item can display its title, outcome, state, Builder Cycle, week number, and week label. The six Builder Cycle week labels are Download, Listen, Emerge, Experiment, Implement, and Launch.
 
-Week 2 does not show all Classroom courses, implement a course browser, add backend authentication, or persist Google auth state.
+## Design system
 
-### Week 3: Member App With Wallet
+The UI uses The Builder Uni logo and brand colors in a restrained professional layout:
 
-Week 3 adds the Builder Points wallet track. It includes local config, customer access ZIP import, on-device encrypted customer secret storage, direct Horizon/NowNodes balance reads, receive QR, QR-based send, local transaction signing, direct transaction submission, and local transaction history.
+- white cards and navigation surfaces
+- a neutral page background
+- black typography for strong readability
+- orange for primary actions and focused emphasis
+- violet for navigation state, supporting badges, and small brand accents
+- rounded controls, neutral borders, and subtle shadows
 
-Week 3 does not fetch wallet credentials from a backend, use backend signing, transfer arbitrary assets, transfer XLM, or implement a full Horizon history explorer.
+Theme tokens are centralized in `lib/app/constant/resources/`. Android launcher icons and the web favicon use the official Builder Uni logo.
 
-Do not rewrite the Week 1 app. Extend it.
+## Architecture
 
-## Git Workflow
+The project uses Flutter, Material 3, and GetX while preserving the existing reusable architecture:
 
-- `main` = stable course starter / Week 1 baseline for new students
-- `feature/week2-member-app` = Week 2 theBuilderApp evolution
-- `feature/week3-member-app-with-wallet` = Week 3 Member App with Wallet evolution
-- weekly feature branches = persistent course learning tracks
-- tags = incremental learning checkpoints
-
-Weekly feature branches are not throwaway branches; they hold each week of app evolution. Incremental updates can be found in Git tags. `main` should not automatically absorb weekly work unless the course owner explicitly changes the branch strategy.
-
-## Common Commands
-
-Clone:
-
-```bash
-git clone [new repository URL]
+```text
+lib/
+├── main.dart                         # Application entry point
+├── main_app.dart                     # GetMaterialApp configuration
+└── app/
+    ├── constant/
+    │   ├── resources/                # Colors, theme, strings, images, dimensions
+    │   └── routing/                  # Central route definitions
+    ├── core/                         # BaseController, BaseView, initial binding
+    ├── features/profile/             # Current mobile shell, screens, mock read model
+    └── widget/                       # Shared widgets
 ```
 
-Return to starter baseline:
+The current mock models mirror the Workspace concepts `builder`, `squad_app`, `squad_builder`, `work_item`, and `squad_work_item`. Future backend work should keep UI components behind controllers/services rather than calling Supabase directly from widgets.
 
-```bash
-git checkout main
-git pull
+## Planned integration
+
+The mobile app is intended to share the Builder Workspace Supabase backend:
+
+```text
+Electron Builder Workspace      Flutter Builder App
+          |                            |
+       supabase-js                supabase_flutter
+          └──────── Supabase Auth, Postgres, RLS ────────┘
 ```
 
-Start Week 2:
+Planned work includes:
 
-```bash
-git checkout feature/week2-member-app
-```
+- Supabase Auth and Builder profile loading
+- live followed-App relationships from `squad_builder`
+- App and Work Item reads from the shared data model
+- Rewards balance, receive, send, and basic history
+- loading, empty, error, and authenticated states
+- Row-Level Security for Builder-scoped access
 
-Start Week 3:
+Service-role keys, account secrets, recovery phrases, and privileged credentials must never be shipped in the mobile app.
 
-```bash
-git checkout feature/week3-member-app-with-wallet
-```
+## Getting started
 
-## Architecture Baseline
+Requirements:
 
-The current architecture must remain intact as the app evolves:
+- Flutter SDK compatible with Dart `^3.9.2`
+- Android Studio or another configured Flutter target
 
-- `lib/main.dart` starts the app
-- `lib/main_app.dart` configures `GetMaterialApp`
-- `lib/app/constant/resources/` holds centralized resources
-- `lib/app/constant/routing/` holds route names and GetX page setup
-- `lib/app/core/` holds base controller/view and initial binding
-- `lib/app/features/` holds feature modules
-- `lib/app/widget/` holds reusable UI widgets
-
-Run the app with:
-
-```bash
+```powershell
+git clone https://github.com/theBuilderUni/TheFlutterBuilderApp.git
+cd TheFlutterBuilderApp
+flutter pub get
 flutter run
 ```
+
+List available devices when needed:
+
+```powershell
+flutter devices
+```
+
+## Verification
+
+Run the official Flutter checks independently from the project root:
+
+```powershell
+flutter analyze
+flutter test test\widget_test.dart --reporter expanded
+```
+
+Build a debug Android APK:
+
+```powershell
+flutter build apk --debug
+```
+
+The APK is generated at `build/app/outputs/flutter-apk/app-debug.apk`.
+
+## Repository status
+
+- UI/navigation phase: implemented
+- Data source: mock data
+- Backend/auth logic: not implemented yet
+- Rewards transaction logic: not implemented yet
+- Primary branch: `main`
+
+## Related project
+
+The desktop Builder Workspace owns coordination and execution workflows such as creating Work Items, managing current work, and persisting records. This mobile app stays intentionally minimal and read-focused so Builders can follow Apps, see work updates, and access Rewards without reproducing the full desktop Workspace.
