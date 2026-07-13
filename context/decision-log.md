@@ -13,7 +13,7 @@ Create a clean Flutter project identity and Git history for theBuilderStudio.
 - package renamed to `the_builder_studio`
 - Android ID set to `com.thebuilderuni.thebuilderstudio`
 - new `main` history initialized
-- canonical repository set to `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
+- canonical repository set to `https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git`
 
 ## 2026-07-12 — Preserve Flutter + GetX Foundation
 
@@ -120,3 +120,13 @@ Document the current broad `ProfileScreen`/`ProfileController` honestly, then sp
 ### Reason
 
 The current implementation works, but copying the all-in-one pattern would make logic, testing, and maintenance harder.
+
+## 2026-07-13 — Repository Renamed to TheFlutterBuilderStudioApp
+
+### Decision
+
+Align the GitHub repository name with the `theBuilderStudio` product identity.
+
+### Result
+
+The canonical remote is now `https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git`. The Dart package remains `the_builder_studio`, the user-facing name remains `theBuilderStudio`, and the Android application ID remains `com.thebuilderuni.thebuilderstudio`.

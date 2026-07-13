@@ -94,8 +94,8 @@ Requirements:
 - Android Studio or another configured Flutter target
 
 ```powershell
-git clone https://github.com/theBuilderUni/TheFlutterBuilderApp.git
-cd TheFlutterBuilderApp
+git clone https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git
+cd TheFlutterBuilderStudioApp
 flutter pub get
 flutter run
 ```

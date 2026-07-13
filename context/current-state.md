@@ -6,7 +6,7 @@ Last synchronized: 2026-07-13
 
 `main` is the current product branch for theBuilderStudio. This repository is no longer the old Week 1 profile challenge and does not use the inherited weekly branch narrative.
 
-Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
+Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git`
 
 ## Runtime Truth
 

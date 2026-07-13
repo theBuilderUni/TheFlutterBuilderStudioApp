@@ -96,7 +96,7 @@ Do not combine test and build commands into a single long shell invocation becau
 
 ## Git
 
-- Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
+- Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git`
 - Primary branch: `main`
 - Keep commits focused and keep the working tree clean before publishing.
 - Never rewrite shared history or force-push unless the user explicitly requests it.
