@@ -1,90 +1,143 @@
 # theBuilderStudio
 
-theBuilderStudio is the Flutter mobile companion for [The Builder Uni](https://github.com/theBuilderUni). It gives Builders a focused view of their identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
+theBuilderStudio is The Builder Uni mobile companion for Builders. It provides a focused mobile view of Builder identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
 
-This repository currently implements the mobile experience and navigation with mock data. Authentication, Supabase persistence, live Rewards transactions, and Workspace synchronization are planned for the next integration phase.
+Repository: https://github.com/theBuilderUni/TheFlutterBuilderStudioApp
 
-## Current experience
+## Current status
 
-The app includes four Builder-facing views:
+The project is in its UI and navigation prototype phase. The screens and presentation interactions are implemented with local mock data.
 
-- **Home** — Builder profile, level, Rewards balance, and followed Apps.
-- **Rewards** — balance, receive QR/Reward ID, and a mock send form.
-- **Apps** — searchable discovery of Builder Uni Apps and their Squads.
-- **App detail** — App overview with WIP, Committed Work, and Work History.
+Not implemented yet:
 
-Presentation-level interactions are implemented, including bottom-tab navigation, Apps search, opening and closing App details, following Apps, and switching between Rewards receive/send views. All displayed records and balances are currently mocked.
+- authentication or user sessions
+- Supabase or another backend data source
+- persistence across app restarts
+- real Rewards balances or transfers
+- real QR generation or scanning
+- notifications
+- loading, error, offline, and unauthenticated states
+
+Mock behavior must not be treated as production functionality.
+
+## Implemented screens
+
+### Home
+
+- Builder identity and level
+- Rewards balance
+- followed Apps
+- App work counts and detail navigation
+
+### Rewards
+
+- Rewards balance
+- Receive and Send presentation modes
+- QR placeholder and Reward ID
+- mock recipient and amount fields
+
+### Apps
+
+- searchable App discovery
+- App description and status
+- WIP and completed Work counts
+- following indicator
+
+### App detail
+
+- App overview
+- follow and unfollow presentation state
+- WIP
+- Committed Work
+- Work History
+- Work Item outcome, cycle, week number, and week label
 
 ## Product language
 
-The app follows the Builder Workspace domain model:
+The app follows Builder Workspace terminology:
 
-- A **Builder** is the signed-in member identity.
-- A **Squad/App** is an independent product team or application.
-- A **Work Item** is meaningful work that should ship, be demonstrated, or become professional evidence.
-- **Rewards** and **Builder Rewards** are used in the UI; wallet and Web3 terminology are intentionally avoided.
+- A Builder is the member identity.
+- An App is the Builder-facing representation of a Squad/App.
+- A Work Item is meaningful work that should ship, be demonstrated, or become professional evidence.
+- Work states shown on mobile are Committed, WIP, and Done presented as Work History.
+- Use Rewards, Builder Rewards, and Rewards Balance. Avoid wallet and Web3 language in Builder-facing UI.
 
-Work Item states shown in the mobile experience are:
-
-- `Committed`
-- `WIP`
-- `Done`, presented as **Work History**
-
-Each Work Item can display its title, outcome, state, Builder Cycle, week number, and week label. The six Builder Cycle week labels are Download, Listen, Emerge, Experiment, Implement, and Launch.
+The six Builder Cycle week labels are Download, Listen, Emerge, Experiment, Implement, and Launch.
 
 ## Design system
 
-The UI uses The Builder Uni logo and brand colors in a restrained professional layout:
+The UI uses The Builder Uni logo and brand palette in a restrained professional layout:
 
 - white cards and navigation surfaces
-- a neutral page background
-- black typography for strong readability
+- neutral light page background
+- solid black typography
 - orange for primary actions and focused emphasis
-- violet for navigation state, supporting badges, and small brand accents
-- rounded controls, neutral borders, and subtle shadows
+- violet for navigation selection, focus states, badges, and small accents
+- neutral borders, rounded controls, and subtle shadows
+- no decorative colored strips on cards
 
-Theme tokens are centralized in `lib/app/constant/resources/`. Android launcher icons and the web favicon use the official Builder Uni logo.
+Core design resources live in `lib/app/constant/resources/`. Android launcher icons and the web favicon use the official Builder Uni logo.
 
-## Architecture
+## Technical identity
 
-The project uses Flutter, Material 3, and GetX while preserving the existing reusable architecture:
+| Setting | Value |
+| --- | --- |
+| Product name | `theBuilderStudio` |
+| Dart package | `the_builder_studio` |
+| Android application ID | `com.thebuilderuni.thebuilderstudio` |
+| Version | `1.0.0+1` |
+| Primary branch | `main` |
+
+## Stack
+
+- Flutter and Dart `^3.9.2`
+- Material 3
+- GetX `^4.7.2` for routing, dependency injection, and reactive state
+- Material Icons
+- `flutter_test` for widget testing
+
+There is currently no Supabase package, HTTP client, database, authentication package, or local persistence layer.
+
+## Project structure
 
 ```text
 lib/
-├── main.dart                         # Application entry point
-├── main_app.dart                     # GetMaterialApp configuration
-└── app/
-    ├── constant/
-    │   ├── resources/                # Colors, theme, strings, images, dimensions
-    │   └── routing/                  # Central route definitions
-    ├── core/                         # BaseController, BaseView, initial binding
-    ├── features/profile/             # Current mobile shell, screens, mock read model
-    └── widget/                       # Shared widgets
+|-- main.dart                         Application entry point
+|-- main_app.dart                     GetMaterialApp configuration
+`-- app/
+    |-- constant/
+    |   |-- resources/                Colors, theme, strings, images, dimensions
+    |   `-- routing/                  Central GetX route definitions
+    |-- core/                         BaseController, BaseView, initial binding
+    |-- features/profile/             Current prototype shell and mock read model
+    `-- widget/                       Shared widgets
 ```
 
-The current mock models mirror the Workspace concepts `builder`, `squad_app`, `squad_builder`, `work_item`, and `squad_work_item`. Future backend work should keep UI components behind controllers/services rather than calling Supabase directly from widgets.
+The current prototype is consolidated in `ProfileScreen` and `ProfileController`. When backend logic begins, Home, Rewards, Apps, and App Detail should be extracted incrementally into focused feature modules.
 
 ## Planned integration
 
-The mobile app is intended to share the Builder Workspace Supabase backend:
+The intended direction is a shared Supabase backend used by the Electron Builder Workspace and the Flutter studio app:
 
 ```text
-Electron Builder Workspace      Flutter Builder App
-          |                            |
-       supabase-js                supabase_flutter
-          └──────── Supabase Auth, Postgres, RLS ────────┘
+Electron Builder Workspace        Flutter theBuilderStudio
+          |                                  |
+       supabase-js                     supabase_flutter
+          |                                  |
+          +------ Supabase Auth/Postgres/RLS-+
 ```
 
-Planned work includes:
+Planned work:
 
-- Supabase Auth and Builder profile loading
-- live followed-App relationships from `squad_builder`
-- App and Work Item reads from the shared data model
-- Rewards balance, receive, send, and basic history
-- loading, empty, error, and authenticated states
-- Row-Level Security for Builder-scoped access
+1. introduce typed domain models and repository interfaces
+2. add Supabase Auth and Builder profile loading
+3. read Apps and participation through `squad_app` and `squad_builder`
+4. read App work through `work_item` and `squad_work_item`
+5. implement Rewards behind a security-reviewed service boundary
+6. add loading, empty, error, offline, and unauthenticated states
+7. expand widget and integration test coverage
 
-Service-role keys, account secrets, recovery phrases, and privileged credentials must never be shipped in the mobile app.
+Widgets must not call Supabase directly. Service-role keys, account secrets, recovery phrases, seeds, and privileged credentials must never ship in the client.
 
 ## Getting started
 
@@ -97,18 +150,13 @@ Requirements:
 git clone https://github.com/theBuilderUni/TheFlutterBuilderStudioApp.git
 cd TheFlutterBuilderStudioApp
 flutter pub get
-flutter run
-```
-
-List available devices when needed:
-
-```powershell
 flutter devices
+flutter run
 ```
 
 ## Verification
 
-Run the official Flutter checks independently from the project root:
+Run Flutter checks independently from the repository root:
 
 ```powershell
 flutter analyze
@@ -121,16 +169,12 @@ Build a debug Android APK:
 flutter build apk --debug
 ```
 
-The APK is generated at `build/app/outputs/flutter-apk/app-debug.apk`.
+Output:
 
-## Repository status
+```text
+build/app/outputs/flutter-apk/app-debug.apk
+```
 
-- UI/navigation phase: implemented
-- Data source: mock data
-- Backend/auth logic: not implemented yet
-- Rewards transaction logic: not implemented yet
-- Primary branch: `main`
+## Related system
 
-## Related project
-
-The desktop Builder Workspace owns coordination and execution workflows such as creating Work Items, managing current work, and persisting records. This mobile app stays intentionally minimal and read-focused so Builders can follow Apps, see work updates, and access Rewards without reproducing the full desktop Workspace.
+The Electron Builder Workspace owns coordination and work execution workflows such as creating and managing Work Items. theBuilderStudio remains intentionally mobile-focused and read-oriented so Builders can follow Apps, review work updates, and access Rewards without reproducing the full desktop Workspace.
