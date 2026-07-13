@@ -1,6 +1,6 @@
-# theBuilderStudio
+# FlutterBuilderStudio App
 
-theBuilderStudio is The Builder Uni mobile companion for Builders. It provides a focused mobile view of Builder identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
+FlutterBuilderStudio App is The Builder Uni mobile companion for Builders. It provides a focused mobile view of Builder identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
 
 Repository: https://github.com/theBuilderUni/TheFlutterBuilderStudioApp
 
@@ -120,7 +120,7 @@ The current prototype is consolidated in `ProfileScreen` and `ProfileController`
 The intended direction is a shared Supabase backend used by the Electron Builder Workspace and the Flutter studio app:
 
 ```text
-Electron Builder Workspace        Flutter theBuilderStudio
+Electron Builder Workspace        FlutterBuilderStudio App
           |                                  |
        supabase-js                     supabase_flutter
           |                                  |
@@ -177,4 +177,4 @@ build/app/outputs/flutter-apk/app-debug.apk
 
 ## Related system
 
-The Electron Builder Workspace owns coordination and work execution workflows such as creating and managing Work Items. theBuilderStudio remains intentionally mobile-focused and read-oriented so Builders can follow Apps, review work updates, and access Rewards without reproducing the full desktop Workspace.
+The Electron Builder Workspace owns coordination and work execution workflows such as creating and managing Work Items. FlutterBuilderStudio App remains intentionally mobile-focused and read-oriented so Builders can follow Apps, review work updates, and access Rewards without reproducing the full desktop Workspace.
