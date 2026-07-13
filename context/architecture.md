@@ -1,75 +1,107 @@
 # Architecture Context
 
-## Architecture Principle
-
-The app evolves week by week, but the Week 1 architecture remains the foundation. Future work should extend the existing Flutter + GetX structure instead of replacing it.
-
 ## Stack
 
-| Layer | Technology | Role |
+| Layer | Technology | Current role |
 | --- | --- | --- |
-| Framework | Flutter (Dart SDK ^3.9) | Cross-platform UI framework |
-| State Management | GetX ^4.7.2 | Reactive state, dependency injection, routing |
-| SVG Rendering | flutter_svg ^2.0.17 | Renders SVG assets |
-| Icons | Material Icons | Built-in Flutter UI icons |
+| UI framework | Flutter / Dart `^3.9.2` | Cross-platform mobile and desktop-capable UI |
+| Design system | Material 3 | Theme, navigation, controls, typography |
+| State and DI | GetX `^4.7.2` | Reactive UI state, bindings, routing |
+| Icons | Material Icons | Current icon system |
+| Testing | `flutter_test` | App-level widget smoke test |
+| Data source | In-memory mock objects | Temporary UI prototype data |
 
-## Current System Boundaries
+There is currently no SVG dependency, auth package, Supabase client, HTTP client, database, or local persistence layer.
 
-- `lib/app/constant/` - app-wide constants for resources and routing
-- `lib/app/constant/resources/` - colors, dimensions, strings, images, and theme
-- `lib/app/constant/routing/` - route constants and GetX page registration
-- `lib/app/core/` - shared base abstractions and app-level binding
-- `lib/app/features/profile/` - Week 1 profile feature module
-- `lib/app/widget/` - shared reusable widgets
-- `assets/images/` - static image and SVG assets
-- `test/` - widget and unit tests
+## Startup and Routing
 
-## Preserved Foundation
+1. `lib/main.dart` starts the app.
+2. `lib/main_app.dart` creates `GetMaterialApp`, applies `AppTheme.lightTheme`, initial binding, and route table.
+3. `AppPages` registers one route: `Routes.profileScreen`.
+4. `ProfileBinding` registers `ProfileController` with `Get.lazyPut(..., fenix: true)`.
+5. `ProfileScreen` extends `BaseView<ProfileController>` and renders the entire current mobile shell.
 
-The following patterns are stable and should be preserved:
+The three bottom tabs are internal reactive state, not separate GetX routes. App Detail is also selected state inside the shell.
 
-1. Screens extend `BaseView<T>` and implement `buildView()`.
-2. Controllers extend `BaseController`.
-3. Routes are defined through centralized route constants.
-4. Colors, dimensions, strings, images, and theme live in centralized resource files.
-5. Features are organized under `lib/app/features/{feature}/`.
-6. Shared UI belongs in `lib/app/widget/` when it is reusable across features.
+## Current Feature Boundary
 
-## Routing
-
-Routing is handled by GetX through `GetMaterialApp`.
-
-- Route names live in `lib/app/constant/routing/app_route.dart`.
-- Pages and bindings live in `lib/app/constant/routing/app_pages.dart`.
-- The current app starts at the profile route.
-- `InitialBinding` is registered at app startup for shared dependencies.
-- Feature bindings register feature controllers with GetX.
-
-## State Model
-
-Week 1 uses `ProfileController` with a reactive `Rx<ProfileInfo>`.
-
-The same style should guide future features:
-
-- immutable data objects where practical
-- explicit state changes
-- `Obx()` for reactive UI updates
-- shared loading and message state through `BaseController`
-
-## Week 2 Evolution Boundary
-
-Week 2 may add new feature modules such as:
-
-```txt
-lib/app/features/auth/
-lib/app/features/member/
-lib/app/features/classroom/
+```text
+lib/app/features/profile/
+├── binding/profile_binding.dart
+├── controller/profile_controller.dart
+└── screen/profile_screen.dart
 ```
 
-Those modules should integrate with the existing architecture. They should not collapse into the profile feature or bypass the base controller/view patterns.
+Despite the directory name, this feature presently contains the whole prototype:
 
-## Auth and Access Status
+- `_Home`
+- `_Rewards`
+- `_Apps`
+- `_SquadDetail`
+- shared private presentation widgets
+- mock models and records in `ProfileController`
 
-Current runtime code has no authentication and no backend/API integration.
+This consolidation reflects current code, but it is not the desired long-term boundary. When real logic begins, extract focused feature modules without rewriting the working shell all at once.
 
-Google Sign-In is a planned Week 2 direction, not yet implemented. Any future implementation must happen on a feature branch and keep Week 1 stable.
+Recommended direction:
+
+```text
+lib/app/features/home/
+lib/app/features/rewards/
+lib/app/features/apps/
+lib/app/features/profile/
+lib/app/data/ or lib/app/services/
+```
+
+## Reactive State
+
+`ProfileController` owns:
+
+- `tabIndex`
+- `rewardsMode`
+- `selectedSquad`
+- `followedIds`
+- `search`
+- mock Builder, Squad, and Work Item lists
+
+Views observe state with `Obx`. Current state lasts only for the process lifetime.
+
+## Current Mock Types
+
+- `BuilderProfile`: name, email, level
+- `Squad`: id, name, description, status, presentation color value
+- `WorkItem`: squad id, title, outcome, state, cycle, week, week label
+
+These are simplified UI models. They are not complete persistence entities and should be replaced or adapted through typed DTO/domain mappings when the backend is connected.
+
+## Future Data Boundary
+
+Widgets must not call Supabase directly. Add service/repository interfaces for:
+
+- authentication/session
+- Builder profile
+- Apps and follow relationships
+- App Work Items
+- Rewards balance/history/send/receive
+
+The intended shared backend is Supabase Auth + Postgres + RLS. Both Electron and Flutter clients should use public anon credentials and RLS. Service-role keys and secret account material must never ship in this app.
+
+## Resource Boundaries
+
+- `AppColors`: brand and semantic colors
+- `AppTheme`: Material component and typography themes
+- `AppDimens`: reusable dimensions
+- `AppString`: app-level strings
+- `AppImages`: asset paths
+- `assets/images/`: official source logo
+- native platform folders: launcher/application branding
+
+## Known Technical Debt
+
+- `ProfileScreen` and `ProfileController` are too broad.
+- Many private widgets, strings, and dimensions remain inline in the prototype screen.
+- Mock models are coupled to UI state.
+- Real QR, clipboard, forms, validation, loading, and error handling are absent.
+- Test coverage currently verifies only initial Home rendering.
+
+Address these incrementally during logic integration; do not claim they are already resolved.

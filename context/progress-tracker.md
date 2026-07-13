@@ -1,69 +1,76 @@
 # Progress Tracker
 
-## Current Phase
-
-Week 2 ready for implementation branch. Runtime implementation has not started yet.
-
-## Stable Baseline
-
-Week 1 is complete and preserved as the stable Builder Profile App baseline.
-
-Week 1 includes:
-
-- Flutter + GetX project scaffold
-- centralized `AppColors`, `AppDimens`, `AppString`, `AppImages`, and `AppTheme`
-- `BaseController` and `BaseView`
-- `InitialBinding` and `ProfileBinding`
-- GetX route constants and page registration
-- immutable `ProfileInfo` model with `copyWith`
-- reactive `ProfileController`
-- Profile screen with header, About, Contact, and Skills sections
-- reusable `SectionCard` and `ProfileInfoTile`
-- SVG logo support through `flutter_svg`
-- widget smoke test coverage
+Last synchronized: 2026-07-13
 
 ## Completed
 
-- Repository references synchronized to `[new repository URL]`
-- AI workflow and context system established
-- Week 1 frozen baseline preparation completed
-- Documentation and workflow alignment completed
-- Branch/tag workflow defined for students and contributors
+### Repository and Branding
 
-## Current Goal
+- renamed project/package/configuration to The Builder App / `the_builder_app`
+- configured Android application ID `com.thebuilderuni.thebuilderapp`
+- initialized clean Git history and published `main`
+- configured canonical GitHub remote
+- added official Builder Uni source logo
+- replaced Android launcher icons across density variants
+- replaced web favicon
+- replaced inherited README with mobile product documentation
 
-Begin Week 2 from a feature branch while preserving Week 1 as the frozen learning milestone.
+### UI Prototype
 
-This documentation update synchronizes the product direction, architecture notes, UI context, repository references, and AI workflow. It does not implement Google Sign-In, Classroom integration, or runtime code changes.
+- recreated the mobile reference information architecture in Flutter
+- implemented Home, Rewards, Apps, and App Detail presentations
+- implemented bottom-tab navigation
+- implemented mock Apps search
+- implemented mock follow/unfollow session state
+- implemented mock Rewards Receive/Send mode switching
+- implemented App Work Item grouping for WIP, Committed Work, and Work History
+- added mock Builder, App, and Work Item records aligned with Workspace terminology
 
-## In Progress
+### Design System
 
-- Nothing in runtime implementation
+- applied neutral background and white professional surfaces
+- set all normal typography to black
+- balanced orange primary actions with restrained violet selection/support states
+- removed colored strips from cards
+- added short orange/violet page-title underline
+- centralized core theme colors and Material component themes
 
-## Next Up
+### Verification
 
-- Create or switch to the Week 2 implementation branch
-- Design the member app feature boundaries
-- Plan auth/member/classroom modules before coding
-- Keep Week 1 available through its milestone tag
+- `flutter analyze` clean at the last runtime verification
+- app-level widget test passing
+- Android debug APK built successfully
 
-## Not Started
+## Current Limitations
 
-- Google Sign-In implementation
-- authenticated member state
+- all data is mocked in memory
+- no auth/session behavior
+- no Supabase package or backend services
+- no persistence
+- no real Rewards balance/send/receive/history
+- QR code is an icon placeholder
+- notification action is a placeholder
+- screen/controller implementation remains consolidated in the profile feature
+- limited automated coverage
+
+## Next Recommended Work
+
+1. extract Home, Rewards, Apps, and App Detail into focused files/modules
+2. define domain models and repository interfaces
+3. add Supabase Auth/session foundation
+4. add Builder and App read repositories
+5. map `squad_builder` and `squad_work_item` relationships
+6. add loading, empty, error, offline, and unauthenticated states
+7. design and implement Rewards service security deliberately
+8. add widget tests for navigation, search, follow state, and Rewards modes
+9. add integration tests once a real backend flow exists
+
+## Do Not Claim Yet
+
+- Google Sign-In
 - Google Classroom integration
-- member dashboard UI
-- participation economy features
-- Week 2 Flutter runtime behavior changes
-
-## Open Questions
-
-- Exact Week 2 implementation order for auth, member profile, and Classroom context
-- Google project/client configuration details
-- Whether Week 2 should keep the profile screen as a fallback or evolve it into a member dashboard
-
-## Session Notes
-
-- Documentation and workflow synchronization only.
-- Runtime Flutter code remains unchanged.
-- The `context/` folder is living documentation and should be updated whenever architecture or workflow changes.
+- live Supabase synchronization
+- real Rewards transfers
+- persisted follows
+- real notifications
+- production readiness

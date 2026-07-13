@@ -1,93 +1,91 @@
 # UI Context
 
-## UI Direction
+## Direction
 
-The current UI is the Week 1 Builder Profile App baseline. It should remain clean, professional, beginner-readable, and easy to evolve.
+The Builder App uses a restrained, professional mobile visual language inspired by clear professional-network products while retaining the Builder Uni logo palette.
 
-Week 2 may evolve the experience toward a theBuilderApp, but the UI system should continue to use the same centralized resources, theme, and reusable section-based layout patterns.
+The current interface is light mode only.
 
-## Theme
+## Visual Hierarchy
 
-Light mode only for the current baseline.
+- neutral light page background
+- white cards, fields, and bottom navigation
+- black primary and secondary typography
+- neutral borders and subtle shadows
+- orange for primary actions and focused emphasis
+- violet for selected navigation, focus states, supporting badges, and small accent slices
 
-The Week 1 visual language uses:
+Avoid large orange or violet backgrounds. Avoid dim/gray text. Avoid decorative colored strips on cards.
 
-- light backgrounds
-- purple primary color
-- orange accent color
-- subtle borders
-- card-based information sections
+## Current Tokens
 
-No dark mode is currently implemented.
-
-## Colors
-
-All colors are defined in `lib/app/constant/resources/app_colors.dart` and applied through `AppTheme`. Do not hardcode hex values in widgets.
-
-| Role | Constant | Value |
+| Role | Token | Value |
 | --- | --- | --- |
-| Primary | `AppColors.primary` | `#6419E6` |
-| Secondary | `AppColors.secondary` | `#FF5A00` |
-| Accent | `AppColors.accent` | `#FF5A00` |
-| Page background | `AppColors.background` | `#FBF9FF` |
+| Orange | `AppColors.primary` / `accent` | `#F35A12` |
+| Orange dark | `AppColors.primaryDark` | `#D94A08` |
+| Orange soft | `AppColors.primarySoft` / `accentSoft` | `#FFF0E8` |
+| Violet | `AppColors.violet` / `secondary` | `#5B20E5` |
+| Violet soft | `AppColors.violetSoft` | `#EEE8FF` |
+| Background | `AppColors.background` | `#F4F2F1` |
 | Surface | `AppColors.surface` | `#FFFFFF` |
-| Primary text | `AppColors.textPrimary` | `#1E293B` |
-| Muted text | `AppColors.textSecondary` | `#64748B` |
-| Border | `AppColors.border` | `#E5D8FF` |
+| Text | `AppColors.textPrimary` / `textSecondary` | `#000000` |
+| Border | `AppColors.border` | `#DED9E8` |
 
 ## Typography
 
-Typography is defined in `AppTheme.lightTheme` through `ThemeData.textTheme`. Use `Theme.of(context).textTheme` in widgets.
+`AppTheme` declares Inter as the app family and uses bold, black headings with black body/label text. If custom font files are later bundled, configure them in `pubspec.yaml`; do not assume a declared family is embedded when it is not.
 
-| Role | Style key | Size | Weight |
-| --- | --- | --- | --- |
-| Name / headline | `headlineMedium` | 28 | w800 |
-| Section title | `titleMedium` | 16 | w700 |
-| Body text | `bodyLarge` | 16 | w400 |
-| Label / muted | `bodyMedium` | 14 | w400 |
+## Components
 
-## Dimensions
+### Page Header
 
-Dimensions are defined in `lib/app/constant/resources/app_dimens.dart`.
+- official stacked Builder Uni logo on the left
+- notification control on the right
+- page title and subtitle
+- a left-aligned underline at about 32% of content width
+- underline is mostly orange with a small violet ending
 
-| Constant | Value | Usage |
-| --- | --- | --- |
-| `AppDimens.screenPadding` | 20px | ListView outer padding |
-| `AppDimens.cardRadius` | 24px | Card and container border radius |
-| `AppDimens.avatarSize` | 108px | Avatar circle diameter |
-| `AppDimens.itemGap` | 12px | Vertical gap between sections |
+### Cards
 
-## Current Components
+- white surface
+- 20px current runtime radius
+- neutral border
+- subtle shadow
+- no orange, violet, or per-App top strip
 
-Shared widgets live in `lib/app/widget/`:
+### Navigation
 
-- `SectionCard` - titled card container used for About, Contact, and Skills sections
-- `ProfileInfoTile` - icon, label, and value row used in the Contact section
+- white Material 3 bottom NavigationBar
+- violet selected indicator on a violet-soft pill
+- Home, Rewards, Apps
+- hidden while App Detail is open
 
-The app uses Flutter Material components styled through `AppTheme`.
+### Buttons and Inputs
 
-## Layout Patterns
+- primary filled action: orange with white text
+- outlined/supporting action: violet/neutral
+- input surface: white
+- focused border: violet
+- stadium/pill treatment for primary themed buttons
 
-Current layout:
+### Badges
 
-- `Scaffold`
-- `AppBar`
-- `SafeArea`
-- `ListView`
-- profile header
-- stacked reusable sections
-- `Wrap` for skill chips
+- orange-soft status badges for general status
+- violet-soft badges for following/level/count support
+- keep badge usage compact
 
-Week 2 screens should preserve this sense of clarity. New member, auth, or classroom UI should use centralized resources and reusable widgets instead of inline styling.
+## Screen Inventory
 
-## Week 2 UI Evolution
+- Home: profile card, balance card, followed Apps
+- Rewards: balance, segmented Receive/Send, QR placeholder, Reward ID, send fields
+- Apps: search and App cards
+- App Detail: overview, follow action, WIP, Committed Work, Work History
 
-Potential Week 2 UI additions:
+## Accessibility and Responsiveness
 
-- sign-in entry screen
-- member identity header
-- member status section
-- classroom participation summary
-- dashboard-style sections
-
-These are planned directions only. They are not implemented in the current runtime code.
+- preserve strong black text contrast
+- keep tap targets large enough for touch
+- respect SafeArea
+- use scrolling layouts for compact devices
+- add semantic labels and real form validation during logic integration
+- test overflow on narrow devices before release

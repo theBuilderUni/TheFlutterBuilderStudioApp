@@ -1,14 +1,8 @@
 # AI Workflow Rules
 
-## Purpose
+## Required Reading
 
-This file defines how AI agents should work in the theBuilderApp repository.
-
-The repository evolves like a software factory. Agents must preserve stable milestones, follow existing architecture, and keep documentation synchronized with meaningful changes.
-
-## Required Reading Order
-
-Before architectural or implementation work, read:
+Before meaningful changes, read:
 
 1. `AGENTS.md`
 2. `context/current-state.md`
@@ -18,60 +12,63 @@ Before architectural or implementation work, read:
 6. `context/ui-context.md`
 7. `context/progress-tracker.md`
 8. `context/decision-log.md`
-9. `context/ai-workflow-rules.md`
 
-Use `current-state.md` as the current project direction and `decision-log.md` as historical reasoning.
+Use current state as implementation truth and verify it against code when facts may have drifted.
 
-## Operating Rules
+## Scope Discipline
 
-- Preserve Flutter + GetX.
-- Preserve `BaseController` and `BaseView`.
-- Preserve centralized resources.
-- Preserve feature-based structure.
-- Do not hardcode routes, colors, dimensions, strings, or asset paths.
-- Prefer small, focused changes.
-- Do not rewrite working systems unless explicitly instructed.
-- Keep implementation beginner-readable.
+- Do not restore the old Week 1/Week 2 training narrative.
+- Do not claim Google Sign-In, Classroom, Supabase, persistence, or real Rewards behavior unless implemented and verified.
+- UI-only requests do not authorize backend or security-sensitive logic.
+- Logic requests should introduce typed service boundaries rather than embedding calls in widgets.
+- Preserve Builder Workspace domain terminology.
 
-## Week Continuity
+## Implementation Rules
 
-Week 1 is the stable baseline. It should remain accessible through its frozen tag.
+- Preserve Flutter, GetX, base abstractions, bindings, centralized routes, and resources unless explicitly changing architecture.
+- New capabilities should use focused feature files/modules.
+- Do not expand the already broad prototype screen/controller with unrelated production logic.
+- Keep credentials and secrets out of source control and client UI.
+- Update context when implementation truth changes.
 
-Week 2 is the current evolution. It should be developed on feature branches and merged only when stable.
+## UI Rules
 
-Future weeks should extend the same app rather than creating unrelated projects.
+- Maintain white surfaces, neutral background, black text, orange primary actions, and restrained violet support.
+- Do not add colored strips to cards.
+- Do not use gray/dim typography without explicit user direction.
+- Preserve the short mixed-color page-title underline and official logo assets.
+- Prefer centralized tokens over new hardcoded design values.
 
-## Git Workflow
+## Verification Rules
 
-- `main` represents the latest stable operational version.
-- tags preserve frozen weekly milestones.
-- feature branches hold active development.
+Run relevant commands independently:
 
-Common branch pattern:
-
-```bash
-git checkout main
-git pull
-git checkout -b feature/week2-member-app
+```powershell
+flutter pub get
+flutter analyze
+flutter test test\widget_test.dart --reporter expanded
 ```
 
-Do not commit unrelated runtime changes during documentation-only tasks.
+Use `flutter build apk --debug` only when an Android artifact or native-resource verification is relevant.
 
-## Documentation Maintenance
+If a command times out, do not report it as a test failure without test output. Re-run the specific command independently and report the actual result.
 
-Update documentation when changing:
+## Documentation Rules
 
-- product direction
-- architecture
-- workflow
-- feature boundaries
-- implementation status
-- UI system rules
+Documentation must distinguish:
 
-For documentation-only synchronization, do not modify runtime code.
+- implemented runtime behavior
+- mock/presentation behavior
+- planned integration
+- explicit non-goals
 
-## Week 2 Implementation Guardrail
+When changing architecture, product scope, design rules, data contracts, or verification workflow, synchronize the relevant context files in the same change.
 
-Google Sign-In, authenticated member state, and Google Classroom integration are planned Week 2 directions. They are not part of this documentation synchronization unless the user explicitly requests implementation work.
+## Git Rules
 
-When implementation begins, add new feature modules instead of overloading the existing profile module.
+- canonical remote: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
+- primary branch: `main`
+- inspect status/diff before staging
+- keep commits focused
+- do not force-push or rewrite shared history without explicit instruction
+- do not publish unrelated user changes

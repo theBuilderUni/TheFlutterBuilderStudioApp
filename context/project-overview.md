@@ -1,65 +1,70 @@
 # Project Overview
 
-## Product Direction
+## Product
 
-This repository is the theBuilderApp: an evolving Flutter training application that grows week by week like real operational software.
+The Builder App is The Builder Uni mobile companion. It is intentionally smaller than the Electron Builder Workspace: the desktop product coordinates and executes work, while mobile provides a convenient Builder-facing view of identity, Rewards, Apps, and App Squad progress.
 
-Week 1 remains the stable Builder Profile App baseline. Week 2 is the current evolution toward a theBuilderApp. The repository should preserve earlier working milestones while teaching students how to extend architecture safely.
+## Users
 
-## Software-Factory Purpose
+The primary user is a Builder who wants to:
 
-The project teaches:
+- see their Builder identity and level
+- check Builder Rewards
+- receive or send Rewards
+- discover and follow Apps
+- understand what an App Squad is building
+- review WIP, Committed Work, and shipped Work History
 
-- Flutter application structure
-- GetX state management, routing, and dependency injection
-- reusable architecture patterns
-- centralized UI resources
-- AI-assisted development workflows
-- Git-based product evolution with branches and tags
+## Current Phase
 
-The repository should not become isolated weekly tutorial apps. Each week should build on the same operational codebase.
+The repository is in a UI-first prototype phase. Screens, navigation, brand treatment, and mock read models are implemented. Real authentication, persistence, backend reads, and Rewards transactions are deferred to the integration phase.
 
-## Week 1: Stable Baseline
+## Mobile Read Model
 
-Week 1 established a Builder Profile App. It displays local profile information with a clean mobile UI and reactive GetX state.
+### Home
 
-Week 1 includes:
+Shows Builder profile, Rewards balance, and followed Apps derived eventually from `squad_builder`.
 
-- Flutter + GetX app scaffold
-- `BaseController` and `BaseView`
-- centralized `AppColors`, `AppDimens`, `AppString`, `AppImages`, and `AppTheme`
-- GetX routing through route constants and page registration
-- feature-based `profile` module
-- reusable shared widgets
-- widget smoke test coverage
+### Rewards
 
-Week 1 is preserved as the starting point for new students and as the stable architectural baseline.
+Shows balance, Receive, Send, and eventually basic history. Builder-facing language must not use wallet or Web3 terminology.
 
-## Week 2: Current Evolution
+### Apps
 
-Week 2 reframes the app as a theBuilderApp. The app is expected to evolve toward:
+Provides marketplace-style App discovery with name, description, status, WIP count, completed-work count, and a detail action.
 
-- real member identity
-- member profile display
-- member or builder status
-- Google Classroom-connected learning context
-- future participation economy foundations
+### App Detail
 
-Important: Google Sign-In and Classroom integration are product direction for Week 2, not implemented yet in this documentation-only synchronization.
+Provides a read-only overview with WIP, Committed Work, and Work History. Work Item cards show title, outcome, state, cycle, week number, and week label.
 
-## Core User Flow Today
+## Shared Workspace Concepts
 
-1. App launches through `GetMaterialApp`.
-2. The Profile feature opens as the initial screen.
-3. User sees profile header, About, Contact, and Skills sections.
-4. Profile data is reactive through GetX.
+The mobile app should eventually read the same Supabase concepts as the desktop Workspace:
 
-## Long-Term Success Criteria
+- `builder`
+- `squad_app`
+- `squad_builder`
+- `work_item`
+- `squad_work_item`
+- `builder_work_item` where assignment data is needed
 
-The project succeeds when students can:
+Work Items remain independent from Builders and Apps. Link tables represent participation and association.
 
-- start from a known weekly milestone
-- understand the current architecture quickly
-- create a feature branch for active development
-- extend the app without rewriting the baseline
-- keep documentation synchronized with implementation
+## Out of Scope Today
+
+- desktop Coordinate and Work board editing
+- Work Item creation or lifecycle mutation
+- public marketing/landing pages
+- chapters, guilds, tribes, or broader group management
+- privileged backend administration
+- service-role credentials in the client
+- real Rewards custody/signing until its security design is explicitly implemented
+
+## Success Criteria for the Current Phase
+
+- all reference mobile screens exist in Flutter
+- navigation and presentation interactions work with mocks
+- Builder Uni branding is consistent and restrained
+- terminology aligns with the Workspace data model
+- architecture remains ready for service-backed integration
+- documentation does not claim unimplemented behavior

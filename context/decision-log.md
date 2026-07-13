@@ -1,255 +1,122 @@
 # Decision Log
 
-This file records important architectural, workflow, and product-direction decisions made throughout the evolution of the project.
+This log records current decisions that materially shape The Builder App. Superseded weekly/Talkware history was removed because it did not describe this repository.
 
-The purpose is to preserve continuity between:
-- project phases,
-- architecture evolution,
-- AI-assisted implementation sessions,
-- and future contributors.
+## 2026-07-12 — Reset as The Builder App
 
----
+### Decision
 
-# 2026-05-25 — Adopted Context-Driven AI Workflow
+Create a clean Flutter project identity and Git history for The Builder App.
 
-## Decision
+### Result
 
-The project adopts a context-driven AI collaboration workflow using standardized context files.
+- package renamed to `the_builder_app`
+- Android ID set to `com.thebuilderuni.thebuilderapp`
+- new `main` history initialized
+- canonical repository set to `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
 
-## Reason
+## 2026-07-12 — Preserve Flutter + GetX Foundation
 
-The repository is expected to evolve continuously across multiple training weeks and product phases.
+### Decision
 
-AI agents require:
-- continuity,
-- architectural awareness,
-- implementation history,
-- and current project direction.
+Retain GetX routing/state/DI plus `BaseController`, `BaseView`, bindings, and centralized resources.
 
-The context system provides structured operational memory for AI-assisted development.
+### Reason
 
-## Result
+The existing foundation is small, working, and suitable for incremental service-backed evolution.
 
-The repository now maintains:
-- `project-overview.md`
-- `architecture.md`
-- `code-standards.md`
-- `ui-context.md`
-- `progress-tracker.md`
-- `ai-workflow-rules.md`
-- `current-state.md`
-- `decision-log.md`
-- `AGENTS.md`
+### Result
 
----
+The current mobile shell remains registered through a centralized GetX route and feature binding.
 
-# 2026-05-25 — Week 1 Architecture Preserved
+## 2026-07-12 — Mobile Is a Builder-Facing Visibility Layer
 
-## Decision
+### Decision
 
-The Week 1 Flutter + GetX architecture will remain the long-term foundation of the project.
+The mobile app will not reproduce the full Electron Workspace. It focuses on Builder identity, Rewards, App discovery, and read-only App work visibility.
 
-## Reason
+### Result
 
-Week 1 established:
-- reusable architecture,
-- centralized resources,
-- feature-based modules,
-- reactive state management,
-- and beginner-readable structure.
+Current screens are Home, Rewards, Apps, and App Detail. Desktop coordination/editing workflows remain out of scope.
 
-The goal of the software factory is incremental evolution, not repeated rewrites.
+## 2026-07-12 — Implement UI Before Logic
 
-## Result
+### Decision
 
-The following systems are treated as foundational:
-- GetX routing
-- BaseController / BaseView
-- centralized AppColors/AppDimens/AppTheme
-- feature module structure
-- reusable widgets
+Recreate the reference mobile screens first with mock data and add backend logic later.
 
-Future weeks should extend this foundation rather than replace it.
+### Reason
 
----
+This establishes navigation, information hierarchy, brand direction, and expected read models before choosing integration details.
 
-# 2026-05-25 — Week 2 Positioned as Operational Member App
+### Result
 
-## Decision
+All current records, balances, follow state, QR presentation, and send behavior are non-persistent mocks.
 
-Week 2 is defined as a theBuilderApp instead of a generic Flutter tutorial app.
+## 2026-07-12 — Align With Workspace Data Concepts
 
-## Reason
+### Decision
 
-The project philosophy emphasizes:
-- operational software,
-- real users,
-- participation systems,
-- and ecosystem thinking.
+Use Builder, Squad/App, Work Item, and relationship-link concepts from the Workspace documentation.
 
-The app should become the first real operational member activation surface for Builder Uni participants.
+### Result
 
-## Result
+The UI uses Apps, WIP, Committed Work, Work History, Outcome, Cycle, and Week labels. Task terminology is rejected for the mobile MVP.
 
-Week 2 introduces:
-- Google Sign-In
-- real member identity
-- Google Classroom integration
-- member participation context
-- future participation economy preparation
+## 2026-07-12 — Use Rewards Language
 
-The app evolves from:
-- static local profile app
-into:
-- authenticated operational member system.
+### Decision
 
----
+Use Rewards, Builder Rewards, and Rewards Balance in Builder-facing UI. Avoid wallet and Web3 terminology.
 
-# 2026-05-25 — Google Identity Chosen as Member Identity Layer
+### Result
 
-## Decision
+Future technical implementation must preserve this product language and hide secret/recovery material.
 
-Google Sign-In becomes the primary identity system for Week 2.
+## 2026-07-12 — Brand With Restraint
 
-## Reason
+### Decision
 
-Google identity:
-- simplifies onboarding,
-- provides real authenticated user identity,
-- integrates naturally with Google Classroom,
-- and reduces custom account-management complexity during early phases.
+Use the official orange/violet logo palette within a professional white/neutral interface.
 
-## Result
+### Result
 
-The project introduces:
-- Google authentication flow
-- authenticated member session state
-- Google profile rendering
-- Classroom-connected learning context
+- orange is reserved for primary actions/emphasis
+- violet supports navigation, focus, and compact badges
+- normal text is black
+- cards are white with neutral borders/shadows
+- colored card strips are prohibited
+- page titles use a short mostly-orange underline with a small violet ending
 
----
+## 2026-07-12 — Brand Native App Surfaces
 
-# 2026-05-25 — Classroom Integration Prioritized Before Wallet Systems
+### Decision
 
-## Decision
+Use the official logo for the web favicon and Android launcher icon rather than Flutter defaults.
 
-Google Classroom integration is prioritized before implementing Builder Points or wallet systems.
+### Result
 
-## Reason
+All Android density launcher resources and `web/favicon.png` are branded.
 
-The immediate goal of Week 2 is:
-- operational learning participation,
-- not financial or loyalty mechanics.
+## 2026-07-13 — Shared Supabase Is the Intended Integration Direction
 
-The app should first become a real educational participation surface before introducing economy layers.
+### Decision
 
-## Result
+When logic work begins, the Flutter app should read the same core Supabase data model as the Electron Workspace through typed repositories/services and RLS.
 
-Week 2 focuses on:
-- course visibility,
-- assignment visibility,
-- learning participation context,
-- and member activation.
+### Constraints
 
-Wallets and participation economy systems remain future-phase concerns.
+- no direct Supabase calls from generic widgets
+- no service-role key in the client
+- no system secrets, seeds, or recovery phrases in the app
+- Work Items remain independent and relationships use link records
 
----
+## 2026-07-13 — Treat Current Feature Consolidation as Prototype Debt
 
-# 2026-05-25 — Git Workflow Standardized
+### Decision
 
-## Decision
+Document the current broad `ProfileScreen`/`ProfileController` honestly, then split it incrementally during integration.
 
-The repository adopts a real software-factory Git workflow.
+### Reason
 
-## Reason
-
-The project should teach:
-- incremental software evolution,
-- release continuity,
-- feature isolation,
-- and operational development workflows.
-
-## Result
-
-Git conventions:
-- `main` = latest stable operational version
-- feature branches = active development work
-- tags = weekly milestone preservation
-
-Example tag:
-- `v0.1-week1-first-challenge`
-
----
-
-# 2026-05-25 — AGENTS.md Adopted as AI Entry Point
-
-## Decision
-
-`AGENTS.md` becomes the primary AI-agent entry point for repository operations.
-
-## Reason
-
-AI coding agents require:
-- predictable operating instructions,
-- reading order,
-- continuity rules,
-- and architecture-preservation guidance.
-
-## Result
-
-AI agents should:
-1. read `AGENTS.md`,
-2. follow context reading order,
-3. preserve architecture continuity,
-4. and update context files when structural changes occur.
-
----
-
-# 2026-05-25 — Context Separation Strategy Adopted
-
-## Decision
-
-The repository separates:
-- current operational truth,
-- historical reasoning,
-- implementation progress,
-- and architecture documentation.
-
-## Reason
-
-Mixing all project information into a single evolving document creates:
-- drift,
-- confusion,
-- duplication,
-- and poor AI continuity.
-
-## Result
-
-Responsibilities are separated:
-
-| File | Responsibility |
-|---|---|
-| `current-state.md` | current operational direction |
-| `decision-log.md` | historical reasoning |
-| `progress-tracker.md` | implementation status |
-| `architecture.md` | system structure |
-| `project-overview.md` | product meaning |
-| `AGENTS.md` | AI operating instructions |
-
----
-
-# Core Long-Term Principle
-
-The project should evolve like a real operational software system.
-
-The repository is not intended to become:
-- disconnected weekly demos,
-- isolated tutorial exercises,
-- or repeatedly rewritten apps.
-
-Instead, the project should accumulate:
-- architecture,
-- operational meaning,
-- reusable systems,
-- and participation-driven functionality
-over time.
+The current implementation works, but copying the all-in-one pattern would make logic, testing, and maintenance harder.

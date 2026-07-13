@@ -2,52 +2,74 @@
 
 ## General
 
-- Keep files small and single-purpose — one widget or class per file
-- Fix root causes, do not layer workarounds
-- Do not mix unrelated concerns in one widget or controller
-- Use `const` constructors wherever possible to optimize rebuilds
-- Prefer immutable data models with `copyWith` over mutable fields
+- Keep changes focused and preserve working behavior.
+- Use explicit Dart types and avoid `dynamic`.
+- Prefer immutable models and `const` constructors.
+- Keep widgets, state, and data access as separate concerns.
+- Fix root causes instead of layering workarounds.
+- Run `dart format` on changed Dart files.
+- Keep `flutter analyze` clean; do not suppress lints without justification.
 
-## Dart / Flutter
+## Flutter and GetX
 
-- Dart SDK constraint: `^3.9.2`
-- Use `flutter_lints` rules — do not suppress lint warnings without justification
-- Use named parameters for all widget constructors with more than one argument
-- Use `required` for all non-nullable named parameters
-- Avoid `dynamic` — use explicit types or generics
-- Use `withValues(alpha: x)` instead of deprecated `withOpacity(x)` for color alpha
+- Controllers extend `BaseController`.
+- Route-level screens extend `BaseView<T>` and implement `buildView()`.
+- Feature controllers are registered in a `Bindings` class.
+- Use `Obx` for reactive state and keep mutations in controllers/services.
+- Do not place backend calls, credentials, or persistence logic inside widgets.
+- Use centralized route names rather than string literals.
 
-## GetX
+## Feature Organization
 
-- All controllers must extend `BaseController` (which extends `GetxController`)
-- All screens must extend `BaseView<T>` and implement `buildView()` — never override `build()` directly
-- Use `Get.lazyPut()` with `fenix: true` in bindings for feature controllers
-- Register shared/global services in `InitialBinding`
-- Register feature-scoped controllers in their own `Binding` class
-- Use `Obx()` for reactive UI rebuilds — prefer it over `GetBuilder` for simplicity
+New production logic should move toward focused modules:
 
-## Theming & Styling
+```text
+features/{feature}/binding/
+features/{feature}/controller/
+features/{feature}/screen/
+features/{feature}/widget/
+```
 
-- All colors must come from `AppColors` — no hardcoded hex values in widgets
-- All dimensions must come from `AppDimens` — no hardcoded numeric sizes in layout
-- All strings must come from `AppString` — no hardcoded user-facing strings in widgets
-- All image paths must come from `AppImages` — no hardcoded asset paths in widgets
-- Theme is defined in `AppTheme.lightTheme` — do not override theme inline in widgets
-- Use `Theme.of(context).textTheme` for typography — do not define custom `TextStyle` inline
+Shared widgets belong in `lib/app/widget/`. Shared services/repositories should use a clearly named data or services layer.
 
-## File Organization
+The current consolidated profile screen is accepted as prototype debt, not a pattern to copy into new features.
 
-- `lib/app/constant/resources/` — Color, dimension, string, image, and theme constants
-- `lib/app/constant/routing/` — Route name constants and page registration
-- `lib/app/core/base/` — `BaseController` and `BaseView` abstractions
-- `lib/app/core/binding/` — `InitialBinding` for app-level dependency registration
-- `lib/app/features/{feature}/` — Feature modules, each containing `binding/`, `controller/`, and `screen/`
-- `lib/app/widget/` — Shared reusable widgets used across multiple features
-- `assets/images/` — Static image and SVG assets
-- `test/` — Widget and unit tests
+## Design and Resources
+
+- Prefer `AppColors` and `AppTheme` for colors and component styling.
+- Prefer `AppDimens` for dimensions repeated across screens.
+- Move repeated user-facing strings to `AppString` as features mature.
+- Asset paths must use `AppImages`.
+- Use `Theme.of(context).textTheme` for standard text roles.
+- Status colors may be semantic, but should become centralized when reused.
+- Never reintroduce colored top strips on cards.
+
+## Domain Naming
+
+- Use Work Item, not Task.
+- Use App in Builder-facing UI and Squad/App in architecture explanations.
+- Use Rewards, Builder Rewards, and Rewards Balance.
+- Use Committed, WIP, and Work History.
+- Keep Outcome on the Work Item, not the App.
+
+## Data and Security
+
+- Map backend snake_case records to typed Dart models.
+- Keep Work Items independent from Builders and Apps; model relationships through links.
+- Use repositories/services as the UI boundary.
+- Never commit API secrets, service-role keys, seeds, recovery phrases, or private account material.
+- Supabase authorization must be enforced with RLS, not client-side hiding.
 
 ## Testing
 
-- Widget tests live in `test/` and use `flutter_test`
-- Test file names mirror the file they test (e.g. `widget_test.dart` for app-level smoke tests)
-- Tests must not rely on hardcoded strings — reference `AppString` constants where possible
+- Widget/unit tests live under `test/`.
+- Integration tests belong under `integration_test/` when added.
+- Add tests for state transitions, filtering, empty states, and navigation as logic is introduced.
+- Run commands independently:
+
+```powershell
+flutter analyze
+flutter test test\widget_test.dart --reporter expanded
+```
+
+Do not combine tests and builds into one long command.

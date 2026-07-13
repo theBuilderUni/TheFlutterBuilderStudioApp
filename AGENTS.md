@@ -2,57 +2,13 @@
 
 ## Purpose
 
-This repository is an evolving AI-powered software factory training system.
+This repository contains **The Builder App**, the Flutter mobile companion for The Builder Uni. It is a Builder-facing visibility layer for profile, Rewards, App discovery, and App Squad work updates.
 
-The project evolves incrementally week by week instead of creating disconnected tutorial apps.
+The current runtime is a UI-first prototype backed by local mock data. Authentication, Supabase reads, live Rewards operations, and desktop Workspace synchronization are not implemented yet.
 
-The goal is not merely learning Flutter syntax. The goal is learning:
+## Required Context
 
-- system thinking
-- reusable architecture
-- AI-assisted development
-- operational software workflows
-- participation-driven application design
-
-## Project Evolution
-
-### Week 1
-
-Builder Profile App.
-
-Focus:
-
-- Flutter setup
-- understanding existing systems
-- modifying a working app safely
-- reusable architecture
-- centralized design systems
-- AI-assisted customization
-
-The Week 1 app is a static local profile system. It is preserved as the frozen baseline tag `v0.1-week1-first-challenge`.
-
-### Week 2
-
-theBuilderApp evolution.
-
-Focus:
-
-- member identity planning
-- Google Sign-In planning
-- Google Classroom integration planning
-- Builder Uni member activation
-- operational app thinking
-- participation economy foundations
-
-Week 2 evolves the Week 1 architecture. Do not rewrite the app from scratch.
-
-Important: Week 2 runtime implementation has not started yet. Do not implement Google Sign-In, Classroom integration, or other runtime behavior unless explicitly requested.
-
-## Context Files
-
-Read these files before making architectural or implementation changes.
-
-Recommended reading order:
+Read these files before architectural or implementation work:
 
 1. `context/current-state.md`
 2. `context/project-overview.md`
@@ -63,122 +19,84 @@ Recommended reading order:
 7. `context/decision-log.md`
 8. `context/ai-workflow-rules.md`
 
-`current-state.md` is the source of truth for the current project direction.
+`current-state.md` is the runtime source of truth. `decision-log.md` records why important choices were made.
 
-## Core Architecture Rules
+## Current Product Scope
 
-- Preserve the existing Flutter + GetX architecture.
-- Preserve the `BaseController` / `BaseView` pattern.
-- Preserve centralized resources:
-  - `AppColors`
-  - `AppDimens`
-  - `AppString`
-  - `AppImages`
-  - `AppTheme`
-- Preserve feature-based folder organization.
-- Do not hardcode route strings.
-- Do not hardcode colors or dimensions in widgets.
-- Prefer reusable widgets over duplicated UI.
+Implemented with mock data:
 
-## Development Philosophy
+- Home with Builder identity, level, Rewards balance, and followed Apps
+- Rewards with balance, receive QR/ID presentation, and mock send form
+- searchable Apps discovery
+- App Squad detail with WIP, Committed Work, and Work History
+- follow/unfollow presentation state
+- three-tab bottom navigation
+- official Builder Uni logo, web favicon, and Android launcher icons
 
-The repository should evolve like a real operational software system.
+Not implemented:
 
-Prefer:
+- authentication or user sessions
+- Supabase or other backend integration
+- real QR generation, clipboard behavior, or Rewards transfer logic
+- persistence across app restarts
+- notifications
+- loading/error/network states
 
-- incremental upgrades
-- modular feature additions
-- reusable abstractions
-- small focused commits
-- maintainable architecture
+Do not describe mocked behavior as production functionality.
 
-Avoid:
+## Domain Language
 
-- rewriting working systems
-- large uncontrolled refactors
-- random demo features
-- disconnected tutorial patterns
+Use the Builder Workspace terminology:
 
-## AI Collaboration Rules
+- `Builder`
+- `App` in Builder-facing UI; `Squad/App` when explaining the relationship
+- `Work Item`, never Task
+- `Committed`, `WIP`, and `Work History`
+- `Rewards`, `Builder Rewards`, `Rewards Balance`; avoid wallet/Web3 wording
 
-AI agents should:
+Work Items are independent records. App association belongs to `squad_work_item`; Builder participation belongs to link records such as `squad_builder` and `builder_work_item`.
 
-- preserve existing architecture unless explicitly instructed otherwise
-- update context files after structural changes
-- explain major architectural changes
-- avoid introducing unnecessary complexity
-- keep implementations beginner-readable when possible
+## Architecture Rules
 
-When adding new functionality:
+- Preserve Flutter + GetX.
+- Preserve `BaseController`, `BaseView`, bindings, and centralized routes.
+- Keep app-wide resources in `AppColors`, `AppDimens`, `AppString`, `AppImages`, and `AppTheme`.
+- New backend access must go through typed services/repositories, not directly from widgets.
+- Keep Supabase anon credentials public-client-safe and rely on RLS. Never ship service-role keys or account secrets.
+- Prefer feature modules for new capabilities. The current all-in-one `profile` screen/controller is a prototype consolidation and should be split incrementally when logic work begins.
+- Update context files whenever runtime scope, architecture, data contracts, or design rules materially change.
 
-- create new feature modules instead of overloading existing files
-- keep files single-purpose
-- follow the established folder conventions
+## Design Rules
 
-## Git Workflow
+- Use white cards/navigation over a neutral light background.
+- Use solid black typography; do not introduce gray/dim text without explicit approval.
+- Use orange for primary actions and focused emphasis.
+- Use violet for selected navigation, supporting badges, focus states, and small brand accents.
+- Do not add colored top strips to cards.
+- The short page-title underline is approximately one-third width, mostly orange with a small violet ending.
+- Preserve the official Builder Uni logo and launcher artwork.
 
-### Main Branch
+## Verification
 
-`main` represents the latest stable operational version of the app.
+Run Flutter commands independently from the project root:
 
-### Feature Branches
-
-Use feature branches for active development work.
-
-Example:
-
-- `feature/week2-member-app`
-
-### Tags
-
-Use tags to preserve frozen learning milestones.
-
-Example:
-
-- `v0.1-week1-first-challenge`
-
-## Repository
-
-Canonical repository URL:
-
-```bash
-[new repository URL]
+```powershell
+flutter pub get
+flutter analyze
+flutter test test\widget_test.dart --reporter expanded
 ```
 
-## Continuity Rules
+For an Android artifact:
 
-Week 2 builds on Week 1. Future weeks should evolve the existing system instead of replacing it.
+```powershell
+flutter build apk --debug
+```
 
-The project should maintain continuity between:
+Do not combine test and build commands into a single long shell invocation because it obscures failures and can trigger tool timeouts.
 
-- architecture
-- UI systems
-- business meaning
-- operational workflows
+## Git
 
-Preserve previous learning foundations while expanding capabilities.
-
-## Context Maintenance
-
-Human project owners typically update:
-
-- `current-state.md`
-- `decision-log.md`
-
-AI agents may help maintain:
-
-- `progress-tracker.md`
-- `architecture.md`
-- implementation synchronization
-
-Do not assume old context is still current unless confirmed by `current-state.md`.
-
-## Final Principle
-
-This repository is not just a Flutter app.
-
-It is:
-
-- a software factory training system
-- a participation-driven application experiment
-- an evolving operational product architecture
+- Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
+- Primary branch: `main`
+- Keep commits focused and keep the working tree clean before publishing.
+- Never rewrite shared history or force-push unless the user explicitly requests it.

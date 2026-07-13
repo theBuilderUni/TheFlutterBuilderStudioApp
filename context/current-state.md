@@ -1,144 +1,75 @@
 # Current State
 
-## Current Branch Truth
+Last synchronized: 2026-07-13
 
-This file describes the current state of `main`.
+## Branch Truth
 
-`main` is the stable course starter / Week 1 baseline for new students. It is not the latest Week 2 runtime app.
+`main` is the current product branch for The Builder App. This repository is no longer the old Week 1 profile challenge and does not use the inherited weekly branch narrative.
 
-Week 2 evolution lives on:
+Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
 
-```bash
-feature/week2-member-app
-```
+## Runtime Truth
 
-The Week 2 branch is where Android Google Sign-In was added as the first real Week 2 integration. Do not assume those Week 2 runtime files exist on `main`.
+The app currently runs as a Flutter Material 3 application with GetX routing, dependency injection, and reactive state.
 
-## Current Phase On Main
+The single registered route opens `ProfileScreen`, which presently acts as the complete mobile shell. It contains:
 
-Week 1 - Builder Profile App starter baseline.
+- Home
+- Rewards
+- Apps
+- App Squad detail
+- bottom navigation between Home, Rewards, and Apps
 
-## Current Goal On Main
+`ProfileController` currently owns mock Builder, Squad/App, and Work Item records plus UI state for tabs, Rewards mode, search, selected App, and followed Apps.
 
-Provide a clean, stable starter app that teaches:
+## Implemented UI Behavior
 
-- Flutter setup
-- GetX basics
-- reusable architecture
-- centralized resources
-- safe AI-assisted customization
-- working with an existing codebase
+- switch among the three bottom tabs
+- view Builder profile and Rewards balance
+- view followed Apps
+- search mock Apps by name/description
+- open and close App Squad detail
+- follow/unfollow an App for the current runtime session
+- switch between Rewards Receive and Send presentations
+- display WIP, Committed Work, and Work History from linked mock Work Items
 
-New students should start here unless their course instructions tell them to check out a weekly feature branch.
+## Mock-Only Behavior
 
-## Runtime Truth On Main
+The current app has no persistence or external data source. The following are placeholders:
 
-The `main` branch currently contains:
+- Builder identity and level
+- Rewards balance and Reward ID
+- QR presentation
+- Rewards send form/action
+- App records and follow state
+- Work Item records and counts
+- notifications button
 
-- Flutter + GetX
-- `BaseController` / `BaseView`
-- centralized app resources
-- centralized routing
-- a `profile` feature module
-- a local Builder Profile screen
-- static local profile data
+## Platform Branding
 
-The `main` branch does not currently contain:
+- Dart package: `the_builder_app`
+- Android application ID: `com.thebuilderuni.thebuilderapp`
+- product name: `theBuilderApp` / The Builder App
+- official logo: `assets/images/the_builder_uni_logo.png`
+- Android launcher icons: branded density-specific PNGs
+- web favicon: official Builder Uni logo
 
-- real Google Sign-In
-- `google_sign_in`
-- auth feature module
-- member feature module
-- classroom feature module
-- Google Classroom API integration
-- Builder Points wallet
-- backend integration
+## Verification Status
 
-## Week 2 Runtime Truth
+The current implementation has passed:
 
-Week 2 is tracked separately on `feature/week2-member-app`.
+- `flutter analyze`
+- `flutter test test\widget_test.dart --reporter expanded`
+- Android debug APK build
 
-On the Week 2 branch:
+## Next Engineering Phase
 
-- Android Google Sign-In works through the official `google_sign_in` package.
-- Android OAuth depends on package name + SHA-1 registration in Google Cloud.
-- A Web OAuth client ID is used as Android `serverClientId`.
-- Classroom remains mock-first.
-- Member status remains mock-first.
-- Builder Points remains placeholder.
-- Firebase Auth, backend calls, Classroom scopes, wallet, and points implementation are not added.
+The next phase is logic and integration, not additional speculative UI. Expected work:
 
-## Previous Stable Baseline
-
-### Week 1 - Builder Profile App
-
-Week 1 established:
-
-- Flutter + GetX architecture
-- centralized design system
-- `BaseController` / `BaseView` patterns
-- reusable widgets
-- feature-based folder organization
-- reactive profile state management
-
-The Week 1 app:
-
-- displays static local profile information
-- has no authentication
-- has no API integration
-- functions as a safe architecture-learning baseline
-
-## Current Product Direction
-
-The application is evolving into the theBuilderApp through weekly feature branches.
-
-A future Builder Uni member should eventually be able to:
-
-- sign in with Google
-- view real Google profile information
-- view Builder Uni member or builder status
-- view learning participation context from Google Classroom
-- prepare for future participation economy systems
-
-These product goals should be implemented incrementally on weekly feature branches, not automatically merged into `main`.
-
-## Preserve From Week 1
-
-The following systems and patterns must remain intact unless explicitly changed.
-
-### Architecture
-
-- Flutter + GetX
-- feature-based module structure
-- centralized routing
-- reactive state management
-
-### Base Abstractions
-
-- `BaseController`
-- `BaseView`
-- `InitialBinding`
-
-### Centralized Resources
-
-- `AppColors`
-- `AppDimens`
-- `AppString`
-- `AppImages`
-- `AppTheme`
-
-### UI Direction
-
-- clean professional mobile layout
-- reusable section-based UI
-- centralized styling
-- responsive `ListView`-based screen structure
-
-## Branch Strategy
-
-- `main` = stable course starter / Week 1 baseline for new students
-- `feature/week2-member-app` = Week 2 theBuilderApp evolution
-- future weekly branches = persistent course learning tracks
-- tags = frozen learning milestones
-
-`main` should not automatically absorb weekly work unless the course owner explicitly changes the branch strategy.
+1. split the consolidated prototype into focused Home, Rewards, Apps, and App Detail feature files
+2. introduce typed repositories/services
+3. add Supabase Auth and Builder profile loading
+4. read Apps, participation links, and Work Items from the shared Workspace schema
+5. implement real Rewards operations behind a safe service boundary
+6. add loading, empty, error, unauthenticated, and offline states
+7. expand unit, widget, and integration coverage
