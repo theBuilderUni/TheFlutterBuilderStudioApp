@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:the_builder_app/app/core/base/base_controller.dart';
+import 'package:the_builder_studio/app/core/base/base_controller.dart';
 
 class ProfileController extends BaseController {
   final tabIndex = 0.obs;

@@ -2,7 +2,7 @@
 
 ## Product
 
-The Builder App is The Builder Uni mobile companion. It is intentionally smaller than the Electron Builder Workspace: the desktop product coordinates and executes work, while mobile provides a convenient Builder-facing view of identity, Rewards, Apps, and App Squad progress.
+theBuilderStudio is The Builder Uni mobile companion. It is intentionally smaller than the Electron Builder Workspace: the desktop product coordinates and executes work, while mobile provides a convenient Builder-facing view of identity, Rewards, Apps, and App Squad progress.
 
 ## Users
 

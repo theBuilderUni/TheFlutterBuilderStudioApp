@@ -1,6 +1,6 @@
-# The Builder App
+# theBuilderStudio
 
-The Builder App is the Flutter mobile companion for [The Builder Uni](https://github.com/theBuilderUni). It gives Builders a focused view of their identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
+theBuilderStudio is the Flutter mobile companion for [The Builder Uni](https://github.com/theBuilderUni). It gives Builders a focused view of their identity, Builder Rewards, followed Apps, and the work being shipped by App Squads.
 
 This repository currently implements the mobile experience and navigation with mock data. Authentication, Supabase persistence, live Rewards transactions, and Workspace synchronization are planned for the next integration phase.
 

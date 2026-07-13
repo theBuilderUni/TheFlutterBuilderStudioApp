@@ -4,7 +4,7 @@ Last synchronized: 2026-07-13
 
 ## Branch Truth
 
-`main` is the current product branch for The Builder App. This repository is no longer the old Week 1 profile challenge and does not use the inherited weekly branch narrative.
+`main` is the current product branch for theBuilderStudio. This repository is no longer the old Week 1 profile challenge and does not use the inherited weekly branch narrative.
 
 Canonical repository: `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
 
@@ -47,9 +47,9 @@ The current app has no persistence or external data source. The following are pl
 
 ## Platform Branding
 
-- Dart package: `the_builder_app`
-- Android application ID: `com.thebuilderuni.thebuilderapp`
-- product name: `theBuilderApp` / The Builder App
+- Dart package: `the_builder_studio`
+- Android application ID: `com.thebuilderuni.thebuilderstudio`
+- product name: `theBuilderStudio` / theBuilderStudio
 - official logo: `assets/images/the_builder_uni_logo.png`
 - Android launcher icons: branded density-specific PNGs
 - web favicon: official Builder Uni logo

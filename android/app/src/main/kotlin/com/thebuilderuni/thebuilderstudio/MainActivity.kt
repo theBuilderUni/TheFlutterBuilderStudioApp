@@ -1,4 +1,4 @@
-package com.thebuilderuni.thebuilderapp
+package com.thebuilderuni.thebuilderstudio
 
 import io.flutter.embedding.android.FlutterActivity
 

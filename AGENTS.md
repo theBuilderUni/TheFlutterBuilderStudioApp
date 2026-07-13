@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository contains **The Builder App**, the Flutter mobile companion for The Builder Uni. It is a Builder-facing visibility layer for profile, Rewards, App discovery, and App Squad work updates.
+This repository contains **theBuilderStudio**, the Flutter mobile companion for The Builder Uni. It is a Builder-facing visibility layer for profile, Rewards, App discovery, and App Squad work updates.
 
 The current runtime is a UI-first prototype backed by local mock data. Authentication, Supabase reads, live Rewards operations, and desktop Workspace synchronization are not implemented yet.
 

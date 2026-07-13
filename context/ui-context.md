@@ -2,7 +2,7 @@
 
 ## Direction
 
-The Builder App uses a restrained, professional mobile visual language inspired by clear professional-network products while retaining the Builder Uni logo palette.
+theBuilderStudio uses a restrained, professional mobile visual language inspired by clear professional-network products while retaining the Builder Uni logo palette.
 
 The current interface is light mode only.
 

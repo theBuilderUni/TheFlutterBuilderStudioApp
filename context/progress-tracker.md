@@ -6,8 +6,8 @@ Last synchronized: 2026-07-13
 
 ### Repository and Branding
 
-- renamed project/package/configuration to The Builder App / `the_builder_app`
-- configured Android application ID `com.thebuilderuni.thebuilderapp`
+- renamed project/package/configuration to theBuilderStudio / `the_builder_studio`
+- configured Android application ID `com.thebuilderuni.thebuilderstudio`
 - initialized clean Git history and published `main`
 - configured canonical GitHub remote
 - added official Builder Uni source logo

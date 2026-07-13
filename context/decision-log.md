@@ -1,17 +1,17 @@
 # Decision Log
 
-This log records current decisions that materially shape The Builder App. Superseded weekly/Talkware history was removed because it did not describe this repository.
+This log records current decisions that materially shape theBuilderStudio. Superseded weekly/Talkware history was removed because it did not describe this repository.
 
-## 2026-07-12 — Reset as The Builder App
+## 2026-07-12 — Reset as theBuilderStudio
 
 ### Decision
 
-Create a clean Flutter project identity and Git history for The Builder App.
+Create a clean Flutter project identity and Git history for theBuilderStudio.
 
 ### Result
 
-- package renamed to `the_builder_app`
-- Android ID set to `com.thebuilderuni.thebuilderapp`
+- package renamed to `the_builder_studio`
+- Android ID set to `com.thebuilderuni.thebuilderstudio`
 - new `main` history initialized
 - canonical repository set to `https://github.com/theBuilderUni/TheFlutterBuilderApp.git`
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:the_builder_app/app/constant/resources/app_colors.dart';
-import 'package:the_builder_app/app/constant/resources/app_images.dart';
-import 'package:the_builder_app/app/core/base/base_view.dart';
-import 'package:the_builder_app/app/features/profile/controller/profile_controller.dart';
+import 'package:the_builder_studio/app/constant/resources/app_colors.dart';
+import 'package:the_builder_studio/app/constant/resources/app_images.dart';
+import 'package:the_builder_studio/app/core/base/base_view.dart';
+import 'package:the_builder_studio/app/features/profile/controller/profile_controller.dart';
 
 class ProfileScreen extends BaseView<ProfileController> {
   const ProfileScreen({super.key});
